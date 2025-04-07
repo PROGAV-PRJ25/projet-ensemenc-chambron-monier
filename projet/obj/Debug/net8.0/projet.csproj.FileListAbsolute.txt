@@ -1,0 +1,15 @@
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\bin\Debug\net8.0\projet.exe
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\bin\Debug\net8.0\projet.deps.json
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\bin\Debug\net8.0\projet.runtimeconfig.json
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\bin\Debug\net8.0\projet.dll
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\bin\Debug\net8.0\projet.pdb
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.AssemblyInfoInputs.cache
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.AssemblyInfo.cs
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.csproj.CoreCompileInputs.cache
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.sourcelink.json
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.dll
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\refint\projet.dll
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.pdb
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\projet.genruntimeconfig.cache
+C:\Users\remsm\Documents\ENSC\1A\PROGAV_PROJET\projet-ensemenc-chambron-monier\projet\obj\Debug\net8.0\ref\projet.dll
