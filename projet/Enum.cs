@@ -21,8 +21,7 @@ namespace SimulateurPotager{
         Terre,
         Argile
     }
-    public enum Pays
-    {
+    public enum Pays{
         Egypte, // sable
         Bangladesh, // argile
         France, // terre

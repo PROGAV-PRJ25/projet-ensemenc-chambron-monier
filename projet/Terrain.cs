@@ -2,7 +2,7 @@ public abstract class Terrain
 {
     public string NomTerrain;
     public TypeTerrain Type;
-    public double Fertilite;
+    public double Fertilite; // 0.5 lente, 1 normale, 1.5 rapide
     public double Humidite;
     public double Luminosite;
     public int Largeur;
