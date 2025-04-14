@@ -21,9 +21,14 @@ namespace SimulateurPotager{
         Terre,
         Argile
     }
-    public enum Pays{
-        France,
-        Japon,
-        Imaginaire
+    public enum Pays
+    {
+        Egypte, // sable
+        Bangladesh, // argile
+        France, // terre
+        Maroc, // sable + argile
+        Mexique, // sable + terre
+        Chine, // argile + terre
+        ChezBea // TOUT
     }
 }

@@ -8,7 +8,7 @@ public abstract class Plante
     public TypeTerrain TerrainPrefere;
     public double EspaceNecessaire;
     public double VitesseCroissance;
-    public double BesoinEau; // en litre/semaine
+    public double BesoinEau; // en litre/semaine & 1mm de précipitation = 1 litre/m²
     public double BesoinLuminosite; // 0.5 faible - 1 normal - 1.5 élevé
     public int TempMin;
     public int TempMax;
