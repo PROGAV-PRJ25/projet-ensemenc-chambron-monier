@@ -1,24 +1,28 @@
-public abstract class Terrain{
-    public string NomTerrain;
-    public List<TypeTerrain> Type;
-    public double Fertilite; // 0.5 lente, 1 normale, 1.5 rapide
-    public double Humidite;
-    public double Luminosite;
-    public int Largeur;
-    public int Hauteur;
-    public List<Plante> PlantesSurTerrain;
-    public Terrain(string nomTerrain, int largeur, int hauteur, List<TypeTerrain> type){
-        NomTerrain = nomTerrain;
-        Largeur = largeur;
-        Hauteur = hauteur;
-        Type = type;
-        PlantesSurTerrain = new List<Plante>();
-    }
-    public abstract void MettreAJourEtat(Meteo meteo);
-    public void AfficherEtat(){
-        Console.WriteLine($"=== {NomTerrain} ===");
-        Console.WriteLine($"Fertilité : {Fertilite}");
-        Console.WriteLine($"Humidité : {Humidite}");
-        Console.WriteLine($"Luminosité : {Luminosite}");
+public class Terrain{
+    public string Type;
+    public List<string> PlantesDispo = new List<string>();
+    public Terrain (string type, List<string> plantesDispo){
+        Type=type;
+        if(Type == 'Terre'){
+            PlantesDispo.Add('Menthe');
+            PlantesDispo.Add('Carotte');
+            PlantesDispo.Add('Tomate');
+            PlantesDispo.Add('Lavande');
+            PlantesDispo.Add('Poussiéreuse');
+        }
+        else if(Type == 'Argile'){
+            PlantesDispo.Add('Fougère');
+            PlantesDispo.Add('Betterave');
+            PlantesDispo.Add('Iris des marais');
+            PlantesDispo.Add('Nénuphar');
+            PlantesDispo.Add('Frozen');
+        }
+        else{
+            PlantesDispo.Add('Figuier nain');
+            PlantesDispo.Add('Immortelle');
+            PlantesDispo.Add('Cactus fleuri');
+            PlantesDispo.Add('Melon');
+            PlantesDispo.Add('Devosyne');
+        }
     }
 }
