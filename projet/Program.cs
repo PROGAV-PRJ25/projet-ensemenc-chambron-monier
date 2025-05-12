@@ -1,78 +1,135 @@
-﻿Console.WriteLine("=== Bienvenue dans le simulateur de potager ! ===\n");
+﻿//------------------------------------------------------------------------------------------------------------------------------------------
+// LOGO + BIENVENUE
+//------------------------------------------------------------------------------------------------------------------------------------------
 
-// Choix du pays
-Console.WriteLine("Dans quel pays souhaitez-vous créer votre jardin ?");
-Console.WriteLine("1. Egypte (sol : sable)");
-Console.WriteLine("2. Bangladesh (sol : argile)");
-Console.WriteLine("3. France (sol : terre)");
-Console.WriteLine("4. Maroc (sol : sable + argile)");
-Console.WriteLine("5. Mexique (sol : sable + terre)");
-Console.WriteLine("6. Chine (sol : argile + terre)");
-Console.WriteLine("7. ChezBea (sol : sable + argile + terre — TOUT pousse)");
-
-int choixPays = DemanderNombreEntre(1, 7);
-
-// Choix dimensions
-Console.WriteLine("\nEntrez la largeur de votre terrain (en mètres) : ");
-int largeur = DemanderNombreEntre(1, 100);
-
-Console.WriteLine("Entrez la hauteur de votre terrain (en mètres) : ");
-int hauteur = DemanderNombreEntre(1, 100);
-
-// Créer le terrain en fonction du pays choisi
-Terrain terrain = null;
-
-switch (choixPays)
+Console.ResetColor();
+Console.ForegroundColor = ConsoleColor.White;
+Console.WriteLine("Bienvenue dans : \n");
+Console.ForegroundColor = ConsoleColor.Green;
+string[] logo = new string[]
 {
-    case 1:
-        terrain = new TerrainS(largeur, hauteur);
-        break;
-    case 2:
-        terrain = new TerrainA(largeur, hauteur);
-        break;
-    case 3:
-        terrain = new TerrainT(largeur, hauteur);
-        break;
-    case 4:
-        terrain = new TerrainSA(largeur, hauteur);
-        break;
-    case 5:
-        terrain = new TerrainST(largeur, hauteur);
-        break;
-    case 6:
-        terrain = new TerrainAT(largeur, hauteur);
-        break;
-    case 7:
-        terrain = new TerrainSAT(largeur, hauteur);
-        break;
+    " ███████╗███╗   ██╗███████╗███████╗███╗   ███╗███████╗███╗   ██╗ ██████╗",
+    " ██╔════╝████╗  ██║██╔════╝██╔════╝████╗ ████║██╔════╝████╗  ██║██╔════╝ ",
+    " █████╗  ██╔██╗ ██║███████ █████╗  ██╔████╔██║█████╗  ██╔██╗ ██║██║      ",
+    " ██╔══╝  ██║╚██╗██║╚════██ ██╔══╝  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║      ",
+    " ███████╗██║ ╚████║███████╗███████╗██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╗ ",
+    " ╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ \n",
+};
+for (int i = 0; i < logo.Length; i++)
+{
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.WriteLine(logo[i]);
 }
+Console.ResetColor();
+Console.ForegroundColor = ConsoleColor.White;
+Console.WriteLine("Le jeu de gestion de jardin !\n");
 
-Console.WriteLine($"\nVotre terrain {terrain.NomTerrain} de {largeur}m x {hauteur}m est prêt !");
-Console.WriteLine("Vous pouvez maintenant planter et gérer votre potager.\n");
+//------------------------------------------------------------------------------------------------------------------------------------------
+// CHOIX DU PAYS
+//------------------------------------------------------------------------------------------------------------------------------------------
 
-// Exemple : afficher les caractéristiques du terrain
-terrain.AfficherEtat();
+string[] paysDispo = { "Egypte", "Bangladesh", "France", "Maroc", "Mexique", "Chine", "ChezBéa" };
+string[] typesTerrains = { "sable", "argile", "terre", "sable + argile", "sable + terre", "argile + terre", "argile + sable + terre" };
+Console.WriteLine("Choisissez un pays parmi :");
 
-// Ici, tu pourras continuer à ajouter un menu pour :
-// - Planter
-// - Passer à la semaine suivante
-// - Afficher l’état du potager
-// - etc.
-
-Console.WriteLine("\n=== Début de la simulation ===");
-
-// Méthode utilitaire pour demander un nombre entier entre min et max
-static int DemanderNombreEntre(int min, int max)
+for (int i = 0; i < paysDispo.Length; i++)
 {
-    int nombre;
-    while (true)
+    Console.WriteLine($"{i + 1}. {paysDispo[i]} ({typesTerrains[i]})");
+}
+int choixPays;
+do
+{
+    Console.Write("\nVotre choix (1-7) : ");
+} 
+while (!int.TryParse(Console.ReadLine(), out choixPays) || choixPays < 1 || choixPays > 7);
+string paysChoisi = paysDispo[choixPays - 1];
+string typeChoisi = typesTerrains[choixPays - 1];
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// CHOIX DU NOMBRE DE TERRAIN
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+int nbTerrains;
+do
+{
+    Console.Write("Nombre de terrains (1-5) : ");
+}
+while (!int.TryParse(Console.ReadLine(), out nbTerrains) || nbTerrains < 1 || nbTerrains > 5);
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// CHOIX DE LA TAILLE DES TERRAINS
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+int dimension;
+do
+{
+    Console.Write("Dimension des terrains (1-10) : ");
+}
+while (!int.TryParse(Console.ReadLine(), out dimension) || dimension < 1 || dimension > 10);
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// CHOIX DU TYPE DE TERRAINS SI PAYS 4-5-6-7
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+List<string> typesPossibles = new List<string>();
+if (choixPays == 4) typesPossibles.AddRange(new string[] { "Sable", "Argile" });
+if (choixPays == 5) typesPossibles.AddRange(new string[] { "Sable", "Terre" });
+if (choixPays == 6) typesPossibles.AddRange(new string[] { "Argile", "Terre" });
+if (choixPays == 7) typesPossibles.AddRange(new string[] { "Sable", "Argile", "Terre" });
+
+List<string> typesDeTerrains = new List<string>();
+
+if (choixPays > 3)
+{
+    Console.WriteLine($"Vous avez choisi : {paysChoisi} comme pays pour votre jardin.");
+    Console.WriteLine($"Le sol de ce pays est composé de plusieurs types : {string.Join(", ", typesPossibles)}.");
+    Console.WriteLine($"Vous devez choisir le type de sol de vos {nbTerrains} terrains.\n");
+
+    for (int i = 0; i < nbTerrains; i++)
     {
-        Console.Write("> ");
-        string saisie = Console.ReadLine();
-        if (int.TryParse(saisie, out nombre) && nombre >= min && nombre <= max)
+        Console.WriteLine($"\nChoisissez le type de sol pour le Terrain {i + 1} :");
+        for (int j = 0; j < typesPossibles.Count; j++)
         {
-            return nombre;
+            Console.WriteLine($"{j + 1}. {typesPossibles[j]}");
         }
-        Console.WriteLine($"Merci de saisir un nombre entre {min} et {max}.");
+
+        int choix;
+        do
+        {
+            Console.Write("Votre choix : ");
+        } while (!int.TryParse(Console.ReadLine(), out choix) || choix < 1 || choix > typesPossibles.Count);
+
+        typesDeTerrains.Add(typesPossibles[choix - 1]);
     }
 }
+else
+{
+    // Si 1 seul type possible (Egypte, Bangladesh, France)
+    string typeUnique = choixPays switch
+    {
+        1 => "Sable",
+        2 => "Argile",
+        3 => "Terre",
+        _ => "Sable"
+    };
+
+    for (int i = 0; i < nbTerrains; i++)
+        typesDeTerrains.Add(typeUnique);
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// AFFICHAGE DES CHOIX
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+Console.WriteLine($"\nVous avez choisi : {paysChoisi} ! Bienvenue =)");
+Console.WriteLine($"Vous avez : {nbTerrains} terrains de {dimension}x{dimension} m² dans votre jardin.\n");
+for (int i=0; i<typesDeTerrains.Count; i++)
+Console.WriteLine($"{typesDeTerrains[i]}");
+
+Simulation simulation = new Simulation(nbTerrains, typesDeTerrains, dimension);
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// LANCEMENT DU JEU
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+simulation.Simuler();
