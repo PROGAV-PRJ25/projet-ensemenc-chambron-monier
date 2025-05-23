@@ -6,7 +6,8 @@ public class Terrain
     public Parcelle[,] Grille;
     //List<Plante> ?ListePlantes; // SERT PLUS A RIEN MAIS JE LAISSE AU CAS OU
     public int QttEau;
-    public Terrain(int dimension, string typeTerrain)
+
+    public Terrain(int dimension, string typeTerrain) // Création des terrains de notre jardin, initialisés vides
     {
         this.Largeur = dimension;
         this.Hauteur = dimension;
@@ -22,7 +23,7 @@ public class Terrain
         }
     }
 
-    public void AppliquerMeteo(Meteo meteo)
+    public void AppliquerMeteo(Meteo meteo) // Appliquer la météo à toutes les parcelles du terrain
     {
         for (int x = 0; x < Largeur; x++)
         {
@@ -30,7 +31,7 @@ public class Terrain
             {
                 Grille[x, y].Luminosite = (int)meteo.Luminosite;
 
-                // Simulation simple : 1 mm de pluie = 0.1 L d'eau, à ajuster selon ton équilibre
+                // Simulation simple : 1 mm de pluie = 0.1 L d'eau
                 Grille[x, y].Eau = 0;
                 int ajoutEau = (int)(meteo.Precipitations * 0.1f);
                 Grille[x, y].Eau += ajoutEau;
@@ -42,7 +43,7 @@ public class Terrain
         }
     }
 
-    private (int x, int y)? TrouverOrigine(int x, int y)
+    private (int x, int y)? TrouverOrigine(int x, int y) // Pour les plantes 2x2 = trouver la case en haut à gauche qui gère la plante
     {
         for (int dx = -1; dx <= 0; dx++)
         {
@@ -63,7 +64,7 @@ public class Terrain
         return null;
     }
 
-    public void Desherber()
+    public void Desherber() // Enlève la plante/mauvaise herbe d'une parcelle (ou de 4 si plante 2x2)
     {
         Console.WriteLine("Vous souhaitez désherber la parcelle (x,y).");
         int x;
@@ -78,7 +79,7 @@ public class Terrain
             Console.Write("y : ");
         }
         while (!int.TryParse(Console.ReadLine(), out y) || y < 0 || y >= Hauteur);
-        // Si ce n’est pas l’origine, on cherche l’origine
+        // Plante 2x2 : si ce n’est pas l’origine, on cherche l’origine
         if (Grille[x, y].Plante != null && !Grille[x, y].EstOrigine)
         {
             var origine = TrouverOrigine(x, y);
@@ -88,7 +89,6 @@ public class Terrain
                 y = origine.Value.y;
             }
         }
-
         // Supprimer la plante sur toutes les cases occupées
         if (Grille[x, y].Plante != null)
         {
@@ -106,7 +106,7 @@ public class Terrain
         Console.WriteLine("-> Désherbage effectué.");
     }
 
-    public void Pailler()
+    public void Pailler() // Permet d'accélérer la croissance d'une plante
     {
         Console.WriteLine("Vous souhaitez pailler la parcelle (x,y).");
         int x;
@@ -121,7 +121,7 @@ public class Terrain
             Console.Write("y : ");
         }
         while (!int.TryParse(Console.ReadLine(), out y) || y < 0 || y >= Hauteur);
-        if (Grille[x, y].Plante != null && !Grille[x, y].EstOrigine)
+        if (Grille[x, y].Plante != null && !Grille[x, y].EstOrigine) // Pour les plantes 2x2, paillage géré sur la case en haut à gauche
         {
             var origine = TrouverOrigine(x, y);
             if (origine != null)
@@ -143,7 +143,7 @@ public class Terrain
         }
     }
 
-    public void Arroser()
+    public void Arroser() // Ajoute de l'eau à une parcelle (max 9)
     {
         Console.WriteLine("Vous souhaitez arroser la parcelle (x,y).");
         int x;
@@ -158,7 +158,7 @@ public class Terrain
             Console.Write("y : ");
         }
         while (!int.TryParse(Console.ReadLine(), out y) || y < 0 || y >= Hauteur);
-        if (Grille[x, y].Plante != null && !Grille[x, y].EstOrigine)
+        if (Grille[x, y].Plante != null && !Grille[x, y].EstOrigine) // Pour les plantes 2x2, arrosage géré sur la case en haut à gauche
         {
             var origine = TrouverOrigine(x, y);
             if (origine != null)
@@ -190,25 +190,23 @@ public class Terrain
         Afficher();
     }
 
-    public void Traiter()
+    public void Traiter() // Pour essayer de guérir les plantes avec une probabilité de 0.9
     {
         Console.WriteLine("-> Traitement appliqué (90% chance).");
     }
 
-    public void Semer(Inventaire inventaire)
+    public void Semer(Inventaire inventaire) // Semer un semis sur la case sélectionnée
     {
-        var semisDisponibles = inventaire.SemisPossedes
+        var semisDisponibles = inventaire.SemisPossedes // Récupère les semis de notre inventaire
             .Where(kv => kv.Value > 0)
-            .Select(kv => CataloguePlantes.GetPlanteParNom(kv.Key))
-            .Where(p => p != null && p.TerrainPrefere == TypeTerrain)
+            .Select(kv => CataloguePlantes.GetPlanteParNom(kv.Key)) 
+            .Where(p => p != null && p.TerrainPrefere == TypeTerrain) // Conserve ceux compatibles avec le type de terrain
             .ToList();
-
         if (semisDisponibles.Count == 0)
         {
             Console.WriteLine("⛔ Aucun semis compatible avec ce terrain !");
             return;
         }
-
         Console.WriteLine("🌱 Semis disponibles à planter :");
         for (int i = 0; i < semisDisponibles.Count; i++)
         {
@@ -220,14 +218,11 @@ public class Terrain
         {
             Console.Write("Choisissez une plante à semer : ");
         } while (!int.TryParse(Console.ReadLine(), out choix) || choix <= 0 || choix > semisDisponibles.Count);
-
         var planteChoisie = semisDisponibles[choix - 1]!;
-
         int x, y;
         do { Console.Write("x : "); } while (!int.TryParse(Console.ReadLine(), out x) || x < 0 || x >= Largeur);
         do { Console.Write("y : "); } while (!int.TryParse(Console.ReadLine(), out y) || y < 0 || y >= Hauteur);
-
-        // Vérifier que toutes les cases nécessaires sont libres
+        // Vérifier que toutes les cases nécessaires sont libres pour une plante 2x2
         bool plante2x2 = planteChoisie.Largeur == 2;
         if (plante2x2)
         {
@@ -249,11 +244,9 @@ public class Terrain
                 return;
             }
         }
-
-        // Planter
+        // Semer donc enlève de l'inventaire les semis
         inventaire.RetirerSemis(planteChoisie.NomPlante);
-
-        // Même instance dans toutes les cases
+        // Même plante dans toutes les cases pour une 2x2
         if (plante2x2)
         {
             Grille[x, y].Plante = planteChoisie;
@@ -273,29 +266,26 @@ public class Terrain
             Grille[x, y].Plante = planteChoisie;
             Grille[x, y].EstOrigine = true;
         }
-
         Console.Clear();
         Console.WriteLine($"✅ {planteChoisie.NomPlante} semée en ({x},{y}) !");
     }
 
-    public void Recolter(Inventaire inventaire)
+    public void Recolter(Inventaire inventaire) // Récolte une plante lorsqu'elle est à son stade de croissance maximal
     {
         Console.WriteLine("Vous souhaitez récolter une parcelle.");
-        
         int x;
         do
         {
             Console.Write("x : ");
         }
         while (!int.TryParse(Console.ReadLine(), out x) || x < 0 || x >= Largeur);
-
         int y;
         do
         {
             Console.Write("y : ");
         }
         while (!int.TryParse(Console.ReadLine(), out y) || y < 0 || y >= Hauteur);
-        if (Grille[x, y].Plante != null && !Grille[x, y].EstOrigine)
+        if (Grille[x, y].Plante != null && !Grille[x, y].EstOrigine) // Ramnène à la case origine en haut à gauche pour une plante 2x2
         {
             var origine = TrouverOrigine(x, y);
             if (origine != null)
@@ -304,9 +294,7 @@ public class Terrain
                 y = origine.Value.y;
             }
         }
-
         Parcelle parcelle = Grille[x, y];
-
         // Cas 1 : parcelle vide
         if (parcelle.Plante == null)
         {
@@ -316,9 +304,7 @@ public class Terrain
             Console.ResetColor();
             return;
         }
-
         Plante plante = parcelle.Plante;
-
         // Cas 2 : pas encore mature
         if (plante.CroissanceActuelle < 1.0 || plante.StadeCroissance != 3)
         {
@@ -328,7 +314,6 @@ public class Terrain
             Console.ResetColor();
             return;
         }
-
         // Cas 3 : plante morte
         if (plante.StadeCroissance == 4)
         {
@@ -338,20 +323,28 @@ public class Terrain
             Console.ResetColor();
             return;
         }
-
         string nom = plante.NomPlante;
+        // Si la plante est mûre
         inventaire.AjouterPlanteRecoltee(nom);
-
-        if (plante.EstVivace)
+        if (plante.EstVivace) // On la récolte et on remet son stade de croissance à 0 si elle est vivace
         {
             plante.CroissanceActuelle = 0.0;
             plante.StadeCroissance = 0;
             plante.SemainesDepuisMaturite = 0;
-            Console.ForegroundColor = ConsoleColor.Green;
+            int taille = plante.Largeur;
+            for (int dx = 0; dx < taille; dx++)
+            {
+                for (int dy = 0; dy < taille; dy++)
+                {
+                    Grille[x + dx, y + dy].Plante = plante;
+                    Grille[x + dx, y + dy].EstOrigine = (dx == 0 && dy == 0); // seule la case [x, y] est l’origine
+                }
+            }
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"🌿 Vous avez récolté {nom}. Elle repoussera (vivace).");
         }
-        else
+        else // On la récolte et on l'enlève et récupère des semis si elle est annuelle
         {
             Random rnd = new();
             int nbSemis = rnd.Next(1, 4);
@@ -375,30 +368,22 @@ public class Terrain
         Console.ResetColor();
     }
 
-    public void InstallerSerre()
+    public void InstallerSerre() // Implémentation à venir
     {
         Console.WriteLine("-> Serre installée.");
     }
 
-    public void InstallerBarriere()
+    public void InstallerBarriere() // Implémentation à venir
     {
         Console.WriteLine("-> Barrière installée.");
     }
 
-    public void InstallerPareSoleil()
+    public void InstallerPareSoleil() // Implémentation à venir
     {
         Console.WriteLine("-> Pare-soleil installé.");
     }
 
-    public void PlanterPlante(Plante plante, int x, int y)
-    {
-        if (x >= 0 && x < Largeur && y >= 0 && y < Hauteur)
-        {
-            Grille[x, y].Plante = plante;
-        }
-    }
-
-    public void AllerAuMagasin(Inventaire inventaire)
+    public void AllerAuMagasin(Inventaire inventaire) // Magasin
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Magenta;
@@ -448,7 +433,7 @@ public class Terrain
         }
     }
 
-    private void AcheterSemis(Inventaire inventaire)
+    private void AcheterSemis(Inventaire inventaire) // Acheter des semis
     {
         var plantes = CataloguePlantes.PlantesDisponibles;
 
@@ -512,7 +497,7 @@ public class Terrain
         }
     }
 
-    private void VendreSemis(Inventaire inventaire)
+    private void VendreSemis(Inventaire inventaire) // Vendre les semis qu'on a dans l'inventaire
     {
         if (inventaire.SemisPossedes.Count == 0)
         {
@@ -588,7 +573,7 @@ public class Terrain
         }
     }
 
-    private void VendrePlantes(Inventaire inventaire)
+    private void VendrePlantes(Inventaire inventaire) // Vendre les plantes récoltées que l'on a dans l'inventaire
     {
         if (inventaire.PlantesRecoltees.Count == 0)
         {
@@ -668,7 +653,7 @@ public class Terrain
         }
     }
 
-    public static ConsoleColor GetCouleurPourTerrain(string typeTerrain)
+    public static ConsoleColor GetCouleurPourTerrain(string typeTerrain) // Pour afficher les plantes de la bonne couleur selon le type de terrain
     {
         return typeTerrain.ToLower() switch
         {
@@ -679,7 +664,7 @@ public class Terrain
         };
     }
 
-    public void Afficher()
+    public void Afficher() // Afficher le terrain
     {
         // Couleur des bordures selon le type de terrain
         ConsoleColor couleurBordure = TypeTerrain.ToLower() switch

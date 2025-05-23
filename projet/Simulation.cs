@@ -6,6 +6,11 @@ public class Simulation
     public  Inventaire InventaireJoueur;
     public Meteo ?MeteoHebdo;
     public string PaysChoisi;
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// CONSTRUCTEUR POUR AVOIR LE JARDIN, AVEC LES TERRAINS, LEURS TYPES, LEUR DIMENSION
+//------------------------------------------------------------------------------------------------------------------------------------------
+
     public Simulation(int nbTerrains, List<string> typesDeTerrains, int dimension, string saisonDepart, string paysChoisi)
     {
         Jardin = new List<Terrain>();
@@ -19,7 +24,10 @@ public class Simulation
         PaysChoisi = paysChoisi;
     }
 
-    // 🔁 Convertit une saison en une semaine approximative de début
+//------------------------------------------------------------------------------------------------------------------------------------------
+// CALLER LA SEMAINE DE JEU PAR RAPPORT AU MOIS CHOISI
+//------------------------------------------------------------------------------------------------------------------------------------------ 
+
     private int ObtenirSemaineDeDepart(string saison)
     {
         switch (saison.ToLower())
@@ -32,14 +40,9 @@ public class Simulation
         }
     }
 
-    private string ObtenirSaison(int semaine)
-    {
-        if (semaine >= 1 && semaine <= 12) return "Hiver";
-        else if (semaine >= 13 && semaine <= 22) return "Printemps";
-        else if (semaine >= 23 && semaine <= 35) return "Été";
-        else if (semaine >= 36 && semaine <= 48) return "Automne";
-        else return "Hiver";  // Pour les semaines 49 à 52
-    }
+//------------------------------------------------------------------------------------------------------------------------------------------
+// ALERTES MÉTÉO QUAND ELLE EST SPÉCIALE
+//------------------------------------------------------------------------------------------------------------------------------------------
 
     private void AfficherAlerteCanicule()
     {
@@ -138,6 +141,10 @@ public class Simulation
         Console.ResetColor();
     }
 
+//------------------------------------------------------------------------------------------------------------------------------------------
+// BULLETIN MÉTÉO AU DÉBUT DE CHAQUE SEMAINE + RAPPEL RAPIDE DE LA MÉTÉO
+//------------------------------------------------------------------------------------------------------------------------------------------
+ 
     private void AfficherBulletinMeteo()
     {
         Console.Clear();
@@ -258,6 +265,10 @@ public class Simulation
         Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════╝\n");
     }
 
+//------------------------------------------------------------------------------------------------------------------------------------------
+// AFFICHER LES DÉTAILS ET CARACTÉRISTIQUES DES PLANTES (DÉTAILLÉ OU RAPIDE)
+//------------------------------------------------------------------------------------------------------------------------------------------
+
     public static void VoirDetailsPlantes()
     {
         Console.Clear();
@@ -303,17 +314,6 @@ public class Simulation
         {
             Console.WriteLine("Entrée invalide.");
         }
-    }
-
-    private static ConsoleColor GetCouleurPourTerrain(string typeTerrain)
-    {
-        return typeTerrain.ToLower() switch
-        {
-            "sable" => ConsoleColor.Yellow,
-            "terre" => ConsoleColor.DarkGreen,
-            "argile" => ConsoleColor.DarkGray,
-            _ => ConsoleColor.White
-        };
     }
 
     public static void VoirDetailsPlantesEssentiels()
@@ -363,13 +363,32 @@ public class Simulation
         }
     }
 
+//------------------------------------------------------------------------------------------------------------------------------------------
+// AFFICHER LES PLANTES EN COULEUR SELON LEUR TYPE DE TERRAIN
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+    private static ConsoleColor GetCouleurPourTerrain(string typeTerrain)
+    {
+        return typeTerrain.ToLower() switch
+        {
+            "sable" => ConsoleColor.Yellow,
+            "terre" => ConsoleColor.DarkGreen,
+            "argile" => ConsoleColor.DarkGray,
+            _ => ConsoleColor.White
+        };
+    }
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// COMMENCER LA SIMULATION SEMAINE PAR SEMAINE
+//------------------------------------------------------------------------------------------------------------------------------------------
+
     public void Simuler()
     {
         while (!FinJeu)
         {
             Console.Clear();
-            MeteoHebdo = new Meteo(SemaineDeJeu);
-            AfficherBulletinMeteo();
+            MeteoHebdo = new Meteo(SemaineDeJeu); // Créer la météo de la semaine
+            AfficherBulletinMeteo(); // Afficher le bulletin météo de la semaine
 
             string? reponseJardin;
             do
@@ -397,10 +416,10 @@ public class Simulation
             {
                 Console.Clear();
                 Console.WriteLine($"=== Terrain {i + 1} ({Jardin[i].TypeTerrain}) ===\n");
-                RappelMeteo();
-                Jardin[i].Afficher();
+                RappelMeteo(); // Rappel rapide de la météo
+                Jardin[i].Afficher(); // Afficher le terrain
                 int actionsRestantes = 5;
-                while (actionsRestantes > 0)
+                while (actionsRestantes > 0) // Montrer les actions disponibles
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine("╔════════════════════════════════════════════════════════════════════════════╗");
@@ -410,18 +429,19 @@ public class Simulation
                     Console.ResetColor();
 
                     Console.WriteLine("║  1. Désherber                       ║  2. Pailler                          ║");
-                    Console.WriteLine("║  3. Arroser                         ║  4. Traiter                          ║");
+                    Console.WriteLine("║  3. Arroser                         ║  4. #Traiter                         ║");
                     Console.WriteLine("║  5. Semer                           ║  6. Récolter                         ║");
-                    Console.WriteLine("║  7. Installer serre                 ║  8. Installer barrière               ║");
-                    Console.WriteLine("║  9. Installer pare-soleil           ║ 10. Aller au magasin                 ║");
+                    Console.WriteLine("║  7. #Installer serre                ║  8. #Installer barrière              ║");
+                    Console.WriteLine("║  9. #Installer pare-soleil          ║ 10. Aller au magasin                 ║");
                     Console.WriteLine("║ 11. Voir l'inventaire               ║ 12. Voir détails plantes             ║");
                     Console.WriteLine("║ 13. Voir détails essentiels plantes ║ 0. Finir le tour de jeu              ║");
+                    Console.WriteLine("║ # = méthode pas encore développée                                          ║");
                     Console.WriteLine("╚════════════════════════════════════════════════════════════════════════════╝");
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.Write("➤ Choix : ");
                     Console.ResetColor();
                     string? input = Console.ReadLine();
-                    switch (input)
+                    switch (input) // Appeler la méthode correcte selon l'action souhaitée
                     {
                         case "0":
                             actionsRestantes = 0;
@@ -495,18 +515,18 @@ public class Simulation
                 {
                     if (parcelle.Plante != null)
                     {
-                        parcelle.AppliquerCroissance(MeteoHebdo);
+                        parcelle.AppliquerCroissance(MeteoHebdo); // Faire pousser les plantes selon les conditions
                     }
                 }
             }
             Console.Write("\nPasser à la semaine suivante ? (o/n) : ");
             if (Console.ReadLine()?.ToLower() == "n")
             {
-                FinJeu = true;
+                FinJeu = true; // Arrêter le jeu
             }
             else
             {
-                SemaineDeJeu++;
+                SemaineDeJeu++; // Passer à la semaine suivante
             }
         }
         Console.WriteLine("Merci d’avoir joué 🌻");

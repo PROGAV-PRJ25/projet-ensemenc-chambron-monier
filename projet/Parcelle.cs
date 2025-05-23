@@ -3,25 +3,25 @@ public class Parcelle
     public Plante? Plante { get; set; }
     public int Luminosite { get; set; } = 0;
     public int Eau { get; set; } = 0;
-    public bool EstOrigine { get; set; } = true;
+    public bool EstOrigine { get; set; } = true; // Vrai pour plante 1x1, et vrai pour la case en haut à gauche d'une 2x2, sinon faux
     public string LigneHaut()
     {
         if (Plante == null)
-            return "    "; // 5 espaces pour alignement
+            return "    "; // Alignement correct
 
-        if (EstOrigine)
-            return $"{Plante.Initiale} {Plante.GetEmojiStade()}";
+        if (EstOrigine) // Si plante 1x1 ou case principale d'une plante 2x2
+            return $"{Plante.Initiale} {Plante.GetEmojiStade()}"; // Mettre l'initiale de la plante et son stade de croissance
 
-        return $"  {Plante.Initiale} "; // 3 caractères centrés : juste l'initiale
+        return $"  {Plante.Initiale} "; // Mettre que l'initiale dans les cases inutiles pour une plante 2x2
     }
     public string LigneBas()
     {
         if (Plante != null && !EstOrigine)
-            return "   ";
-        return $"{Luminosite}  {NombreVersEmoji(Eau)}";
+            return "   "; // Ne rien dans les cases inutiles pour une plante 2x2
+        return $"{Luminosite}  {NombreVersEmoji(Eau)}"; // Afficher la luminosité de la parcelle et la quantité d'eau de la parcelle
     }
 
-    public string NombreVersEmoji(int nombre)
+    public string NombreVersEmoji(int nombre) // Pour un bel affichage de l'eau
     {
         return nombre switch
         {
@@ -38,7 +38,7 @@ public class Parcelle
             _ => "❓"
         };
     }
-    public void AppliquerCroissance(Meteo meteo)
+    public void AppliquerCroissance(Meteo meteo) // Faire poursser les plantes selon les 4conditions 
     {
         if (Plante == null || !EstOrigine) return;
 
@@ -58,7 +58,7 @@ public class Parcelle
         if (Eau >= Plante.BesoinEau)
             conditionsRemplies++;
 
-        // Condition 4 : Espacement (à implémenter plus tard si pas fait)
+        // Condition 4 : Espacement (à implémenter plus tard)
         bool espacementCorrect = true; // simplifié pour l’instant
         if (espacementCorrect)
             conditionsRemplies++;
@@ -115,7 +115,7 @@ public class Parcelle
             }
         }
     }
-    public string Affichage()
+    public string Affichage() // Gestion de l'affichage
     {
         if (Plante == null)
             return " . ";

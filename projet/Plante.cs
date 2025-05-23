@@ -23,8 +23,8 @@ public class Plante
     public int PrixAchatSemis;
     public int PrixVenteProduit;
     public string EmojiStade => GetEmojiStade();
-    public double CroissanceActuelle = 0.0; // de 0 à 1
-    public int SemainesDepuisMaturite = 0; // décompte après 100%
+    public double CroissanceActuelle = 0.0;
+    public int SemainesDepuisMaturite = 0;
 
     public Plante(string nomPlante, int raretePlante, int stadeCroissance, string terrainPrefere, bool estVivace, bool estComestible, bool estCommercialisable, bool estOrnementale, bool estMedicinale, bool estMagique, int largeur, int longueur, int ecartNecessaire, int esperanceVie, double vitesseCroissance, List<string> saisonSemis, int besoinEau, double besoinLuminosite, int tempMin, int tempMax, int prixAchatSemis, int prixVenteProduit)
     {
@@ -51,9 +51,10 @@ public class Plante
         PrixAchatSemis = prixAchatSemis;
         PrixVenteProduit = prixVenteProduit;
     }
-    public string Initiale => string.IsNullOrEmpty(NomPlante) ? " " : NomPlante.Substring(0, 1).ToUpper();
 
-    public string GetEmojiStade()
+    public string Initiale => string.IsNullOrEmpty(NomPlante) ? " " : NomPlante.Substring(0, 1).ToUpper(); // Affiche l'initiale de la plante
+
+    public string GetEmojiStade() // Pour le stade de croissance de la plante
     {
         return StadeCroissance switch
         {
@@ -66,7 +67,7 @@ public class Plante
         };
     }
 
-    public string AfficherDetails()
+    public string AfficherDetails() // Donnes les informations détaillées de la plante
     {
         return $"Nom: {NomPlante}\n" +
                $"Rarete: {RaretePlante}\n" +
@@ -91,7 +92,7 @@ public class Plante
                $"Prix de Vente du Produit: {PrixVenteProduit} crédits\n";
     }
 
-    public string AfficherDetailsEssentiels()
+    public string AfficherDetailsEssentiels() // Donnes les informations essentielles de la plante
     {
         return $"Nom: {NomPlante}\n" +
                $"Rarete: {RaretePlante}\n" +

@@ -1,13 +1,15 @@
 public class Inventaire
 {
-    public Dictionary<string, int> SemisPossedes = new();
-    public Dictionary<string, int> PlantesRecoltees = new();
+    public Dictionary<string, int> SemisPossedes = new(); // Semis possédés dans notre inventaire
+    public Dictionary<string, int> PlantesRecoltees = new(); // Plantes possédées dans notre inventaire
     public int Argent;
-    public Inventaire(int dimension, int nbTerrains)
+    
+    public Inventaire(int dimension, int nbTerrains) // Argent proportionnel au nombre de terrain(s) et à leur dimension
     {
-        Argent = dimension * nbTerrains;
+        Argent = dimension * nbTerrains; // Terrain 1x1 = 1 argent - Terrain 2x2 = 2 argent - 2 Terrains 2x2 = 4 argent
     }
-    public void AjouterSemis(string nomPlante, int quantite)
+
+    public void AjouterSemis(string nomPlante, int quantite) // Ajouter un semis à notre inventaire quand on achète/récolte
     {
         if (SemisPossedes.ContainsKey(nomPlante))
             SemisPossedes[nomPlante] += quantite;
@@ -15,7 +17,7 @@ public class Inventaire
             SemisPossedes[nomPlante] = quantite;
     }
 
-    public void AjouterPlanteRecoltee(string nomPlante)
+    public void AjouterPlanteRecoltee(string nomPlante) // Ajouter une plante à notre inventaire quand on récolte
     {
         if (PlantesRecoltees.ContainsKey(nomPlante))
             PlantesRecoltees[nomPlante]++;
@@ -23,12 +25,12 @@ public class Inventaire
             PlantesRecoltees[nomPlante] = 1;
     }
 
-    public bool PossedeSemis(string nomPlante)
+    public bool PossedeSemis(string nomPlante) // Afficher les semis que l'on possède
     {
         return SemisPossedes.ContainsKey(nomPlante) && SemisPossedes[nomPlante] > 0;
     }
 
-    public void RetirerSemis(string nomPlante, int quantite = 1)
+    public void RetirerSemis(string nomPlante, int quantite = 1) // Enlever semis de l'inventaire quand on sème/vend
     {
         if (PossedeSemis(nomPlante))
         {
@@ -38,7 +40,7 @@ public class Inventaire
         }
     }
 
-    public void AfficherInventaire()
+    public void AfficherInventaire() // Afficher notre inventaire
     {
         // Argent
         Console.ForegroundColor = ConsoleColor.Green;
@@ -55,7 +57,6 @@ public class Inventaire
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("🌱 Semis en stock :");
         Console.ResetColor();
-
         if (SemisPossedes.Count == 0)
         {
             Console.WriteLine("  (aucun semis)");
@@ -67,14 +68,12 @@ public class Inventaire
                 Console.WriteLine($"  - {semis.Key} x{semis.Value}");
             }
         }
-
         Console.WriteLine();
 
         // Plantes récoltées
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine("🌸 Plantes récoltées :");
         Console.ResetColor();
-
         if (PlantesRecoltees.Count == 0)
         {
             Console.WriteLine("  (aucune plante récoltée)");
@@ -86,8 +85,6 @@ public class Inventaire
                 Console.WriteLine($"  - {plante.Key} x{plante.Value}");
             }
         }
-
         Console.WriteLine();
     }
-
 }

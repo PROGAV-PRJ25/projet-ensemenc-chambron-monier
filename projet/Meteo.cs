@@ -2,12 +2,12 @@ using System;
 
 public class Meteo
 {
-    public int Semaine { get; private set; }             // Semaine de l'année (1 à 52)
-    public float Precipitations { get; private set; }    // en mm
-    public float Temperature { get; private set; }       // en °C
-    public int Luminosite { get; private set; }         // échelle de 0 (très sombre) à 9 (très lumineux)
-    public string saison => ObtenirSaison(Semaine);
-    private static Random rng = new Random();
+    public int Semaine { get; private set; } // Semaine de l'année (1 à 52)
+    public float Precipitations { get; private set; } // en mm
+    public float Temperature { get; private set; } // en °C
+    public int Luminosite { get; private set; } // échelle de 0 (très sombre) à 9 (très lumineux)
+    public string saison => ObtenirSaison(Semaine); // Récupérer la saison selon la semaine de jeu, car la météo dépend de la saison
+    private static Random rng = new Random(); // Pour générer les météo aléatoirement
 
     public Meteo(int semaine)
     {
@@ -15,7 +15,7 @@ public class Meteo
         GenererMeteo();
     }
 
-    private void GenererMeteo()
+    private void GenererMeteo() // Générer une météo semi-aléatoire selon la saison de jeu, pour la pluie et la luminosité
     {
         string saison = ObtenirSaison(Semaine);
 
@@ -56,7 +56,7 @@ public class Meteo
         else return "Hiver";  // Semaines 49 à 52
     }
 
-    public override string ToString()
+    public override string ToString() // Ne sert à rien - 1ère version d'affichage de la météo
     {
         return $"Semaine {Semaine} - {ObtenirSaison(Semaine)}\n" +
                $"Température : {Temperature:F1}°C\n" +

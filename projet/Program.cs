@@ -129,7 +129,7 @@ var typesPossibles = choixPays switch
 
 var typesDeTerrains = new List<string>();
 
-if (choixPays > 3)
+if (choixPays > 3) // Si plusieurs types possible (Maroc, Mexique, Chine, ChezBéa)
 {
     Console.WriteLine($"Vous avez choisi : {paysChoisi} comme pays pour votre jardin.");
     Console.WriteLine($"Le sol de ce pays est composé de plusieurs types : {string.Join(", ", typesPossibles)}.");
