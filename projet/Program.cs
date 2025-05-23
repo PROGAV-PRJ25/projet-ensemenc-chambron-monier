@@ -1,19 +1,32 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------
-// LOGO + BIENVENUE
+// BIENVENUE DANS LE JEU
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-Console.ResetColor();
+Console.Clear();
 Console.ForegroundColor = ConsoleColor.White;
-Console.WriteLine("Bienvenue dans : \n");
-Console.ForegroundColor = ConsoleColor.Green;
-string[] logo = new string[]
-{
-    " ███████╗███╗   ██╗███████╗███████╗███╗   ███╗███████╗███╗   ██╗ ██████╗",
-    " ██╔════╝████╗  ██║██╔════╝██╔════╝████╗ ████║██╔════╝████╗  ██║██╔════╝ ",
-    " █████╗  ██╔██╗ ██║███████ █████╗  ██╔████╔██║█████╗  ██╔██╗ ██║██║      ",
-    " ██╔══╝  ██║╚██╗██║╚════██ ██╔══╝  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║      ",
-    " ███████╗██║ ╚████║███████╗███████╗██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╗ ",
-    " ╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ \n",
+var logo = new[] {
+    "██████████████████████████████████████████████████████████████████████████████╗",
+    "██                                                                          ██║",
+    "██                         BIENVENUE DAAAAAANS ...                          ██║",
+    "██                                                                          ██║",
+    "██  ███████╗███╗   ██╗███████╗███████╗███╗   ███╗███████╗███╗   ██╗ ██████╗ ██║",
+    "██  ██╔════╝████╗  ██║██╔════╝██╔════╝████╗ ████║██╔════╝████╗  ██║██╔════╝ ██║",
+    "██  █████╗  ██╔██╗ ██║███████ █████╗  ██╔████╔██║█████╗  ██╔██╗ ██║██║      ██║",
+    "██  ██╔══╝  ██║╚██╗██║╚════██ ██╔══╝  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║      ██║",
+    "██  ███████╗██║ ╚████║███████╗███████╗██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╗ ██║",
+    "██  ╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ ██║",
+    "██                                                                          ██║",
+    "██           ████████████████████████████████████████████████████╗          ██║",
+    "██           ██                                                ██║          ██║",
+    "██           ██      Le meilleur jeu de gestion de jardin !    ██║          ██║",
+    "██           ██         Viens faire pousser tes plantes        ██║          ██║",
+    "██           ██      AVEC JÉRÉMY CHAMBRON & RÉMI MONIER !!     ██║          ██║",
+    "██           ██                                                ██║          ██║",
+    "██           ████████████████████████████████████████████████████║          ██║",
+    "██           ╚═══════════════════════════════════════════════════╝          ██║",
+    "██                                                                          ██║",
+    "██████████████████████████████████████████████████████████████████████████████║",
+    "╚═════════════════════════════════════════════════════════════════════════════╝\n",
 };
 for (int i = 0; i < logo.Length; i++)
 {
@@ -21,8 +34,26 @@ for (int i = 0; i < logo.Length; i++)
     Console.WriteLine(logo[i]);
 }
 Console.ResetColor();
-Console.ForegroundColor = ConsoleColor.White;
-Console.WriteLine("Le jeu de gestion de jardin !\n");
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+// PASSER AU CHOIX DU PAYS
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+string? reponsePays;
+do
+{
+    Console.ResetColor();
+    Console.Write("Souhaitez-vous passer au choix du pays dans lequel construire votre jardin ? (oui) : ");
+    reponsePays = Console.ReadLine()?.Trim().ToLower();
+
+    if (reponsePays != "oui")
+    {
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine("➤ Dites oui s’il vous plaît !");
+        Console.ResetColor();
+    }
+}
+while (reponsePays != "oui");
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 // CHOIX DU PAYS
@@ -30,18 +61,34 @@ Console.WriteLine("Le jeu de gestion de jardin !\n");
 
 string[] paysDispo = { "Egypte", "Bangladesh", "France", "Maroc", "Mexique", "Chine", "ChezBéa" };
 string[] typesTerrains = { "sable", "argile", "terre", "sable + argile", "sable + terre", "argile + terre", "argile + sable + terre" };
-Console.WriteLine("Choisissez un pays parmi :");
 
+Console.Clear();
+Console.ForegroundColor = ConsoleColor.Cyan;
+Console.WriteLine("╔═════════════════════════════════════════════════╗");
+Console.WriteLine("║         🌍  CHOIX DU PAYS DE CULTURE  🌍        ║");
+Console.WriteLine("╚═════════════════════════════════════════════════╝\n");
+
+Console.ResetColor();
 for (int i = 0; i < paysDispo.Length; i++)
 {
-    Console.WriteLine($"{i + 1}. {paysDispo[i]} ({typesTerrains[i]})");
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.Write($" {i + 1}. ");
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write($"{paysDispo[i]}");
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine($"  →  Terrain : {typesTerrains[i]}");
 }
+Console.ResetColor();
+
 int choixPays;
 do
 {
+    Console.ForegroundColor = ConsoleColor.White;
     Console.Write("\nVotre choix (1-7) : ");
-} 
+    Console.ResetColor();
+}
 while (!int.TryParse(Console.ReadLine(), out choixPays) || choixPays < 1 || choixPays > 7);
+
 string paysChoisi = paysDispo[choixPays - 1];
 string typeChoisi = typesTerrains[choixPays - 1];
 
@@ -63,21 +110,24 @@ while (!int.TryParse(Console.ReadLine(), out nbTerrains) || nbTerrains < 1 || nb
 int dimension;
 do
 {
-    Console.Write("Dimension des terrains (1-10) : ");
+    Console.Write("Dimension des terrains (1-5) : ");
 }
-while (!int.TryParse(Console.ReadLine(), out dimension) || dimension < 1 || dimension > 10);
+while (!int.TryParse(Console.ReadLine(), out dimension) || dimension < 1 || dimension > 5);
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 // CHOIX DU TYPE DE TERRAINS SI PAYS 4-5-6-7
 //------------------------------------------------------------------------------------------------------------------------------------------
 
-List<string> typesPossibles = new List<string>();
-if (choixPays == 4) typesPossibles.AddRange(new string[] { "Sable", "Argile" });
-if (choixPays == 5) typesPossibles.AddRange(new string[] { "Sable", "Terre" });
-if (choixPays == 6) typesPossibles.AddRange(new string[] { "Argile", "Terre" });
-if (choixPays == 7) typesPossibles.AddRange(new string[] { "Sable", "Argile", "Terre" });
+var typesPossibles = choixPays switch
+{
+    4 => new List<string> { "Sable", "Argile" },
+    5 => new List<string> { "Sable", "Terre" },
+    6 => new List<string> { "Argile", "Terre" },
+    7 => new List<string> { "Sable", "Argile", "Terre" },
+    _ => new List<string>()
+};
 
-List<string> typesDeTerrains = new List<string>();
+var typesDeTerrains = new List<string>();
 
 if (choixPays > 3)
 {
@@ -118,6 +168,13 @@ else
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
+// CHOIX DE LA SAISON POUR COMMENCER LA PARTIE
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+Console.Write("Choisissez la saison de départ (hiver, printemps, été, automne) (sinon départ en hiver): ");
+string? saison = Console.ReadLine();
+
+//------------------------------------------------------------------------------------------------------------------------------------------
 // AFFICHAGE DES CHOIX
 //------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -126,7 +183,7 @@ Console.WriteLine($"Vous avez : {nbTerrains} terrains de {dimension}x{dimension}
 for (int i=0; i<typesDeTerrains.Count; i++)
 Console.WriteLine($"{typesDeTerrains[i]}");
 
-Simulation simulation = new Simulation(nbTerrains, typesDeTerrains, dimension);
+Simulation simulation = new Simulation(nbTerrains, typesDeTerrains, dimension, saison!, paysChoisi);
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 // LANCEMENT DU JEU
